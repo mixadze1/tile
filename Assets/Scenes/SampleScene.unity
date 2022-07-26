@@ -528,13 +528,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.656059, y: 0, z: 0, w: 0.75470966}
-  m_LocalPosition: {x: 0.000000019938895, y: 13.5, z: -2.78}
+  m_LocalRotation: {x: 0.5735764, y: 0, z: 0, w: 0.8191521}
+  m_LocalPosition: {x: 0.000000019938895, y: 15, z: -4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 82, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 70, y: 0, z: 0}
 --- !u!1 &1242185420
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,9 +584,6 @@ MonoBehaviour:
   _wallPrefab: {fileID: 939976881496331358, guid: 66b8742e6e4c7e94f95ca417b0911072, type: 3}
   _spawnPercentWall: 20
   _spawnPecrentgameTile: 80
-  _lockTileMask:
-    serializedVersion: 2
-    m_Bits: 64
   GameTiles: []
 --- !u!1 &1362329074
 GameObject:
