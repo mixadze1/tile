@@ -14,7 +14,7 @@ public class GameTile : MonoBehaviour
     [SerializeField] private Transform _particaleDown;
     [SerializeField,Range(10f,30f)] private float _rotation;
     private GameBoard _board;
-    private float _speedRotation = 10;
+    private float _speedRotation = 12;
     private bool _isMove;
     public int NumberGameTile;
 
@@ -44,24 +44,18 @@ public class GameTile : MonoBehaviour
 
     private void Update()
     {
-        if (_rigidbody.velocity.magnitude < 0.25f)
-        {
-            RotationOff();
-           // RotationZhileinoct(_isZhile);
-            gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(new Vector3(0, 0, 0)), Time.deltaTime * _speedRotation);
+        if (_rigidbody.velocity.magnitude < 0.25f && gameObject.transform.rotation != Quaternion.Euler(Vector3.zero))
+        {      
+            MoveOff();
+            gameObject.transform.rotation = Quaternion.Slerp(transform.rotation,
+                Quaternion.Euler(Vector3.zero), Time.deltaTime * _speedRotation);
             _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
             _isMove = false;
-            ParticaleOff();
         }
         RotationOn();
     }
-    private void RotationZhileinoct()
-    {
 
-        //_isZhile = false;
-    }
-
-    private void RotationOff()
+    private void MoveOff()
     {
         _isMoveLeft = false;
         _isMoveRight = false;
@@ -93,48 +87,29 @@ public class GameTile : MonoBehaviour
             _rigidbody.isKinematic = false;
             if (swipes[(int)SwipeManager.Direction.Left])
             {
-                _rigidbody.constraints = RigidbodyConstraints.FreezePositionY |
-                    RigidbodyConstraints.FreezePositionZ |
-                    RigidbodyConstraints.FreezeRotationX | 
-                    RigidbodyConstraints.FreezeRotationY;
-
+                ConstainersLeftRight();
                 _isMoveLeft = true;
                 _rigidbody.velocity = Vector3.left * _speed;
-                _particaleLeft.gameObject.SetActive(true);
             }
             if (swipes[(int)SwipeManager.Direction.Right])
             {
-                _rigidbody.constraints = RigidbodyConstraints.FreezePositionY |
-                       RigidbodyConstraints.FreezePositionZ |
-                       RigidbodyConstraints.FreezeRotationX |
-                       RigidbodyConstraints.FreezeRotationY;
-
+                ConstainersLeftRight();
                 _isMoveRight = true;
                 _rigidbody.velocity = Vector3.right * _speed;
-                _particaleRight.gameObject.SetActive(true);
             }
 
             if (swipes[(int)SwipeManager.Direction.Up])
             {
-                _rigidbody.constraints = RigidbodyConstraints.FreezePositionY |
-                       RigidbodyConstraints.FreezePositionX |
-                       RigidbodyConstraints.FreezeRotationZ |
-                       RigidbodyConstraints.FreezeRotationY;
 
+                ConstainersForwardDown();
                 _isMoveForward = true;
                _rigidbody.velocity = Vector3.forward * _speed;
-                _particaleForward.gameObject.SetActive(true);
             }
             if (swipes[(int)SwipeManager.Direction.Down])
             {
-                _rigidbody.constraints = RigidbodyConstraints.FreezePositionY |
-                       RigidbodyConstraints.FreezePositionX |
-                       RigidbodyConstraints.FreezeRotationZ |
-                       RigidbodyConstraints.FreezeRotationY;
-
+                ConstainersForwardDown();
                 _isMoveDown = true;
                 _rigidbody.velocity = -Vector3.forward * _speed;
-                _particaleDown.gameObject.SetActive(true);
             }
         }
         catch
@@ -142,14 +117,6 @@ public class GameTile : MonoBehaviour
             return;
         }
         
-    }
-
-    private void ParticaleOff()
-    {
-        _particaleLeft.gameObject.SetActive(false);
-        _particaleDown.gameObject.SetActive(false);
-        _particaleRight.gameObject.SetActive(false);
-        _particaleForward.gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -183,5 +150,21 @@ public class GameTile : MonoBehaviour
         gameObject.transform.position = collision.gameObject.transform.position;
         NumberGameTile++;
         _textNumber.text = NumberGameTile.ToString();
+    }
+
+    private void ConstainersLeftRight()
+    {
+        _rigidbody.constraints = RigidbodyConstraints.FreezePositionY |
+                     RigidbodyConstraints.FreezePositionZ |
+                     RigidbodyConstraints.FreezeRotationX |
+                     RigidbodyConstraints.FreezeRotationY;
+    }
+
+    private void ConstainersForwardDown()
+    {
+        _rigidbody.constraints = RigidbodyConstraints.FreezePositionY |
+                      RigidbodyConstraints.FreezePositionX |
+                      RigidbodyConstraints.FreezeRotationZ |
+                      RigidbodyConstraints.FreezeRotationY;
     }
 }
