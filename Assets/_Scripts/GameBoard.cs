@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,9 +7,16 @@ public class GameBoard : MonoBehaviour
     [SerializeField] private Tile _lockTilePrefab;
     [SerializeField] private GameTile _gameTilePrefab;
     [SerializeField] private Wall _wallPrefab;
-    [SerializeField] private LayerMask _lockTileMask;
+    [SerializeField, Range(20, 80)] private float _spawnPercentWall;
+    [SerializeField, Range(50, 80)] private float _spawnPecrentgameTile;
 
     private Tile[] _tiles;
+
+    private float _sizeWallX = 20.25f;
+    private float _sizeWallZ = 10;
+    private float _offsetWallX = 0.25f;
+    private float _offsetWall = 10.2f;
+
     
     private List <Wall> _walls = new List<Wall>();
 
@@ -28,12 +34,12 @@ public class GameBoard : MonoBehaviour
     {
         if(IsWin())
         {
-            Debug.Log("win");
+            //TODO win
         }
     }
 
     private bool IsWin()
-    {Debug.Log(GameTiles.Count);
+    {
        if (GameTiles.Count <= 1)
             return true;
         return false;
@@ -78,38 +84,21 @@ public class GameBoard : MonoBehaviour
             {
                 Tile tile = _tiles[i] = Instantiate(_tilePrefab);
                 tile.Type = TileType.Open;
-                if (Random.Range(0, 100) < 80)
+                if (Random.Range(0, 100) > _spawnPercentWall)
                 {
                     tile.Type = TileType.Open;
                 }
                 else
                 {
-
-                        Tile lockTile = _tiles[i] = Instantiate(_lockTilePrefab);
-                        lockTile.transform.localPosition = new Vector3(x - offset.x, 0, y - offset.y);
-                        tile.Type = TileType.Lock;
+                    Tile lockTile = _tiles[i] = Instantiate(_lockTilePrefab);
+                    lockTile.transform.localPosition = new Vector3(x - offset.x, 0, y - offset.y);
+                    tile.Type = TileType.Lock;
                 }
                 tile.transform.SetParent(transform, false);
                 tile.transform.localPosition = new Vector3(x - offset.x, 0, y - offset.y);
             }
         }
     }
-
-  /*  private bool GetAdjacent(Vector2 positionCenter)
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(positionCenter, 0, _lockTileMask);
-        int countOpenTile = 0;
-        foreach (var hitCollider in hitColliders)
-        {
-            Debug.Log(countOpenTile);
-             if (hitCollider.gameObject.GetComponent<Tile>().Type == TileType.Lock)
-                countOpenTile++;
-        }
-        hitColliders = null;
-        if (countOpenTile <= 10)
-            return true;
-        return false;
-    }*/
 
     private void CreateGameTile(Vector2Int size)
     {
@@ -121,7 +110,7 @@ public class GameBoard : MonoBehaviour
             {
                 if (_tiles[i].Type == TileType.Open)
                 {
-                    if (Random.Range(0, 100) > 80)
+                    if (Random.Range(0, 100) > _spawnPecrentgameTile)
                     {
                         GameTile gameTile = Instantiate(_gameTilePrefab);
                         GameTiles.Add(gameTile);
@@ -142,36 +131,37 @@ public class GameBoard : MonoBehaviour
         WestWall(offset);
         SouthWall(offset);
     }
-
+    #region CreateWall
     private void NorthWall(Vector2 offset)
     {
         Wall wall  = Instantiate(_wallPrefab);
         _walls.Add(wall);
-        wall.transform.localScale = new Vector3(_size.x + 0.25f, 1, 20.25f);
-        wall.transform.position = new Vector3(0, 0, offset.y + 10.2f);
+        wall.transform.localScale = new Vector3(_size.x + _sizeWallX, 1, _sizeWallX);
+        wall.transform.position = new Vector3(0, 0, offset.y + _offsetWall);
     }
 
     private void EastWall(Vector2 offset)
     {
         Wall wall  = Instantiate(_wallPrefab);
         _walls.Add(wall);
-        wall.transform.localScale = new Vector3(20.25f, 1, _size.y + 10);
-        wall.transform.position = new Vector3(offset.x + 10.2f, 0, 0);
+        wall.transform.localScale = new Vector3(_sizeWallX, 1, _size.y + _sizeWallZ);
+        wall.transform.position = new Vector3(offset.x + _offsetWall, 0, 0);
     }
 
     private void WestWall(Vector2 offset)
     {
         Wall wall = Instantiate(_wallPrefab);
         _walls.Add(wall);
-        wall.transform.localScale = new Vector3(20.25f, 1, _size.y + 10);
-        wall.transform.position = new Vector3(-offset.x - 10.2f, 0, 0);
+        wall.transform.localScale = new Vector3(_sizeWallX, 1, _size.y + _sizeWallZ);
+        wall.transform.position = new Vector3(-offset.x - _offsetWall, 0, 0);
     }
 
     private void SouthWall(Vector2 offset)
     {
         Wall wall = Instantiate(_wallPrefab);
         _walls.Add(wall);
-        wall.transform.localScale = new Vector3(_size.x + 0.25f, 1, 20.25f);
-        wall.transform.position = new Vector3(0, 0, -offset.y - 10.2f);
+        wall.transform.localScale = new Vector3(_size.x + _offsetWallX, 1, _sizeWallX);
+        wall.transform.position = new Vector3(0, 0, -offset.y - _offsetWall);
     }
+    #endregion
 }

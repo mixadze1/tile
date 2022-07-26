@@ -131,15 +131,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 4409383816368456581}
+  _textNumber: {fileID: 2373543459672430739}
   _speed: 10
-  _particaleLeft: {fileID: 0}
-  _particaleRight: {fileID: 0}
-  _particaleForward: {fileID: 0}
-  _particaleDown: {fileID: 0}
   _rotation: 25
   NumberGameTile: 1
-  _textNumber: {fileID: 2373543459672430739}
-  IsDie: 0
 --- !u!54 &4409383816368456581
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -550,16 +545,16 @@ TrailRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 0.93333334, g: 0.59607846, b: 0.59607846, a: 1}
-      key1: {r: 0.93333334, g: 0.59607846, b: 0.59607846, a: 0.92941177}
-      key2: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 0.7254902}
+      key1: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 0.92941177}
+      key2: {r: 1, g: 1, b: 1, a: 0.7254902}
       key3: {r: 1, g: 1, b: 1, a: 0}
       key4: {r: 1, g: 1, b: 1, a: 0}
       key5: {r: 1, g: 1, b: 1, a: 0}
       key6: {r: 1, g: 1, b: 1, a: 0}
       key7: {r: 1, g: 1, b: 1, a: 0}
       ctime0: 17733
-      ctime1: 29684
-      ctime2: 63415
+      ctime1: 63415
+      ctime2: 65535
       ctime3: 65535
       ctime4: 65535
       ctime5: 65535
@@ -574,7 +569,7 @@ TrailRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 4
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     numCornerVertices: 5
     numCapVertices: 0

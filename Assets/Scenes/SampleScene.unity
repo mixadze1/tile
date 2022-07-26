@@ -209,8 +209,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 86
+  m_fontSizeBase: 86
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -420,7 +420,7 @@ Canvas:
   m_GameObject: {fileID: 946614918}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -582,6 +582,8 @@ MonoBehaviour:
   _lockTilePrefab: {fileID: 3986352217721047643, guid: b802b7f349eb3894d9ce4c522e2430a3, type: 3}
   _gameTilePrefab: {fileID: 2206646784659674736, guid: c67e5bd86c1c3b6499c887cebb64dc42, type: 3}
   _wallPrefab: {fileID: 939976881496331358, guid: 66b8742e6e4c7e94f95ca417b0911072, type: 3}
+  _spawnPercentWall: 20
+  _spawnPecrentgameTile: 80
   _lockTileMask:
     serializedVersion: 2
     m_Bits: 64
@@ -614,17 +616,17 @@ RectTransform:
   m_GameObject: {fileID: 1362329074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.79068, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 531695162}
   m_Father: {fileID: 946614922}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.7999878, y: -51.700012}
-  m_SizeDelta: {x: 200, y: 100}
-  m_Pivot: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 155}
+  m_SizeDelta: {x: 300, y: 200}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1362329076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -793,7 +795,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _board: {fileID: 1242185422}
   _boardSize: {x: 6, y: 6}
-  _speedGameTile: 1
 --- !u!4 &1646739607
 Transform:
   m_ObjectHideFlags: 0

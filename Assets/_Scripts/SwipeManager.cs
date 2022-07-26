@@ -59,24 +59,20 @@ public class SwipeManager : MonoBehaviour
             SendSwipe();
             touchMoved = false;
         }
-        //calculate swipe
         _swipeDelta = Vector2.zero;
         if (touchMoved && GetTouch())
         {
             _swipeDelta = TouchPosition() - _startTouch;
         }
-        //check swipe
-        if (_swipeDelta.magnitude > SWIPE_THRFSHOLD)// чтобы узнать длину можно иисспользовать magnitude
+        if (_swipeDelta.magnitude > SWIPE_THRFSHOLD)
         {
             if (Mathf.Abs(_swipeDelta.x) > Mathf.Abs(_swipeDelta.y))
             {
-                //left/right
                 swipe[(int)Direction.Left] = _swipeDelta.x < 0;
                 swipe[(int)Direction.Right] = _swipeDelta.x > 0;
             }
             else
             {
-                //up/down
                 swipe[(int)Direction.Down] = _swipeDelta.y < 0;
                 swipe[(int)Direction.Up] = _swipeDelta.y > 0;
             }
@@ -88,8 +84,7 @@ public class SwipeManager : MonoBehaviour
         if (swipe[0] || swipe[1] || swipe[2] || swipe[3])
         {
             Debug.Log(swipe[0] + "|" + swipe[1] + "|" + swipe[2] + "|" + swipe[3]);
-            MoveEvent?.Invoke(swipe); // if (MoveEvent != null)
-            //{ MoveEvent(swipe); }
+            MoveEvent?.Invoke(swipe); 
         }
         else
         {

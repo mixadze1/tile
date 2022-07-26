@@ -1,35 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class GameTile : MonoBehaviour
 {
-    [SerializeField] private Rigidbody _rigidbody;
- 
-    [SerializeField] private float _speed;
-    [SerializeField] private Transform _particaleLeft;
-    [SerializeField] private Transform _particaleRight;
-    [SerializeField] private Transform _particaleForward;
-    [SerializeField] private Transform _particaleDown;
-    [SerializeField,Range(10f,30f)] private float _rotation;
-    private GameBoard _board;
-    private float _speedRotation = 12;
-    private bool _isMove;
-    public int NumberGameTile;
+    [SerializeField] private Rigidbody _rigidbody;  
 
     [SerializeField] private TextMeshProUGUI _textNumber;
+
+    [SerializeField] private float _speed;
+    [SerializeField,Range(10f,30f)] private float _rotation;
+
+    private GameBoard _board;
+
+    private float _speedRotation = 12;
+
+    private bool _isMove;
 
     private bool _isMoveLeft;
     private bool _isMoveRight;
     private bool _isMoveForward;
     private bool _isMoveDown;
 
-    public bool IsDie;
+    public int NumberGameTile;
+
+    public bool IsDie { get; private set; }
 
     private void Awake()
-    {
-       
+    {   
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.isKinematic = true;
         SwipeManager.instance.MoveEvent += MoveGameTile;
@@ -44,8 +41,8 @@ public class GameTile : MonoBehaviour
 
     private void Update()
     {
-        if (_rigidbody.velocity.magnitude < 0.25f && gameObject.transform.rotation != Quaternion.Euler(Vector3.zero))
-        {      
+        if (_rigidbody.velocity.magnitude < 1f && gameObject.transform.rotation != Quaternion.Euler(Vector3.zero))
+        {
             MoveOff();
             gameObject.transform.rotation = Quaternion.Slerp(transform.rotation,
                 Quaternion.Euler(Vector3.zero), Time.deltaTime * _speedRotation);
@@ -121,24 +118,22 @@ public class GameTile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<GameTile>())
+        if (collision.gameObject.GetComponent<GameTile>() &&
+            collision.gameObject.GetComponent<GameTile>().NumberGameTile == NumberGameTile)
         {
-            if (collision.gameObject.GetComponent<GameTile>().NumberGameTile == NumberGameTile   )
-            {        
-                if ((_isMoveDown || _isMoveForward) &&
-                    Mathf.Abs( gameObject.transform.position.x) - Mathf.Abs( collision.gameObject.transform.position.x) < 0.3f
-                    && Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) > -0.3f)
-                {
-                    CreateUpGameTile(collision);
-                }
-                if((_isMoveLeft || _isMoveRight) &&
-                    Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) < 0.3f
-                    &&
-                    Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) > -0.3f)
-                {
-                    CreateUpGameTile(collision);
-                }
-            }            
+            if ((_isMoveDown || _isMoveForward) &&
+                Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) < 0.2f
+                && Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) > -0.2f)
+            {
+                CreateUpGameTile(collision);
+            }
+            if ((_isMoveLeft || _isMoveRight) &&
+                Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) < 0.3f
+                &&
+                Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) > -0.3f)
+            {
+                CreateUpGameTile(collision);
+            }
         }
     }
 
