@@ -14,16 +14,16 @@ public class GameTile : MonoBehaviour
     [SerializeField] private Transform _particaleDown;
     [SerializeField,Range(10f,30f)] private float _rotation;
     private GameBoard _board;
-
+    private float _speedRotation = 10;
     private bool _isMove;
     public int NumberGameTile;
 
     [SerializeField] private TextMeshProUGUI _textNumber;
 
-    private bool _isRotationLeft;
-    private bool _isRotationRight;
-    private bool _isRotationForward;
-    private bool _isRotationDown;
+    private bool _isMoveLeft;
+    private bool _isMoveRight;
+    private bool _isMoveForward;
+    private bool _isMoveDown;
 
     public bool IsDie;
 
@@ -47,33 +47,39 @@ public class GameTile : MonoBehaviour
         if (_rigidbody.velocity.magnitude < 0.25f)
         {
             RotationOff();
-            gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
+           // RotationZhileinoct(_isZhile);
+            gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(new Vector3(0, 0, 0)), Time.deltaTime * _speedRotation);
             _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
             _isMove = false;
             ParticaleOff();
         }
         RotationOn();
-    }   
+    }
+    private void RotationZhileinoct()
+    {
+
+        //_isZhile = false;
+    }
 
     private void RotationOff()
     {
-        _isRotationLeft = false;
-        _isRotationRight = false;
-        _isRotationForward = false;
-        _isRotationDown = false;
+        _isMoveLeft = false;
+        _isMoveRight = false;
+        _isMoveForward = false;
+        _isMoveDown = false;
     }
     
     private void RotationOn()
     {
-        if (_isRotationLeft)
-            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, _rotation));
+        if (_isMoveLeft)
+            gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(new Vector3(0, 0, _rotation)), Time.deltaTime * _speedRotation);
 
-        if (_isRotationRight)
-            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -_rotation));
-        if (_isRotationDown)
-            gameObject.transform.rotation = Quaternion.Euler(new Vector3(-_rotation, 0, 0));
-        if (_isRotationForward)
-            gameObject.transform.rotation = Quaternion.Euler(new Vector3(_rotation, 0, 0));
+        if (_isMoveRight)
+            gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(new Vector3(0, 0, -_rotation)), Time.deltaTime * _speedRotation);
+        if (_isMoveDown)
+            gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(new Vector3(-_rotation, 0, 0)), Time.deltaTime * _speedRotation);
+        if (_isMoveForward)
+            gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(new Vector3(_rotation, 0, 0)), Time.deltaTime * _speedRotation);
     }
 
     void MoveGameTile(bool[] swipes)
@@ -92,7 +98,7 @@ public class GameTile : MonoBehaviour
                     RigidbodyConstraints.FreezeRotationX | 
                     RigidbodyConstraints.FreezeRotationY;
 
-                _isRotationLeft = true;
+                _isMoveLeft = true;
                 _rigidbody.velocity = Vector3.left * _speed;
                 _particaleLeft.gameObject.SetActive(true);
             }
@@ -103,7 +109,7 @@ public class GameTile : MonoBehaviour
                        RigidbodyConstraints.FreezeRotationX |
                        RigidbodyConstraints.FreezeRotationY;
 
-                _isRotationRight = true;
+                _isMoveRight = true;
                 _rigidbody.velocity = Vector3.right * _speed;
                 _particaleRight.gameObject.SetActive(true);
             }
@@ -115,7 +121,7 @@ public class GameTile : MonoBehaviour
                        RigidbodyConstraints.FreezeRotationZ |
                        RigidbodyConstraints.FreezeRotationY;
 
-                _isRotationForward = true;
+                _isMoveForward = true;
                _rigidbody.velocity = Vector3.forward * _speed;
                 _particaleForward.gameObject.SetActive(true);
             }
@@ -126,7 +132,7 @@ public class GameTile : MonoBehaviour
                        RigidbodyConstraints.FreezeRotationZ |
                        RigidbodyConstraints.FreezeRotationY;
 
-                _isRotationDown = true;
+                _isMoveDown = true;
                 _rigidbody.velocity = -Vector3.forward * _speed;
                 _particaleDown.gameObject.SetActive(true);
             }
@@ -136,13 +142,6 @@ public class GameTile : MonoBehaviour
             return;
         }
         
-    }
-
-    private IEnumerator Move(Vector3 side)
-    {
-        yield return new WaitForFixedUpdate();
-        
-
     }
 
     private void ParticaleOff()
@@ -155,29 +154,34 @@ public class GameTile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-
-        if (collision.gameObject.GetComponent<GameTile>() &&
-            collision.gameObject.GetComponent<SphereCollider>().radius <= 0.15f)
+        if (collision.gameObject.GetComponent<GameTile>())
         {
-            if (collision.gameObject.GetComponent<GameTile>().NumberGameTile == NumberGameTile  )
-            {         
-                Destroy(collision.gameObject);
-                _board.GameTiles.Remove(collision.gameObject.GetComponent<GameTile>());
-                collision.gameObject.GetComponent<GameTile>().IsDie = true;
-
-                NumberGameTile++;
-                _textNumber.text = NumberGameTile.ToString();
+            if (collision.gameObject.GetComponent<GameTile>().NumberGameTile == NumberGameTile   )
+            {        
+                if ((_isMoveDown || _isMoveForward) &&
+                    Mathf.Abs( gameObject.transform.position.x) - Mathf.Abs( collision.gameObject.transform.position.x) < 0.3f
+                    && Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) > -0.3f)
+                {
+                    CreateUpGameTile(collision);
+                }
+                if((_isMoveLeft || _isMoveRight) &&
+                    Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) < 0.3f
+                    &&
+                    Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) > -0.3f)
+                {
+                    CreateUpGameTile(collision);
+                }
             }            
         }
     }
 
-    private void CreateUpGameTile()
+    private void CreateUpGameTile(Collision collision)
     {
-        Instantiate(this);
+        Destroy(collision.gameObject);
+        _board.GameTiles.Remove(collision.gameObject.GetComponent<GameTile>());
+        collision.gameObject.GetComponent<GameTile>().IsDie = true;
+        gameObject.transform.position = collision.gameObject.transform.position;
+        NumberGameTile++;
+        _textNumber.text = NumberGameTile.ToString();
     }
-}
-
-public enum GameTileType
-{
-  
 }
