@@ -30,7 +30,7 @@ public class ShopItem : MonoBehaviour
         UnlockItem();
     }
 
-    public void ChangeGameTile()
+    public void EquipGameTile()
     {
         _shop.ChangeGameTile(_gameTilePrefab);
     }

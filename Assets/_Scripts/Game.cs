@@ -9,8 +9,9 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
-        _board.Initialize(_boardSize, _gameTile);
         _shop.Initialize();
+        _board.Initialize(_boardSize, _gameTile);
+        
     }
 
     public void ChangeGameTile(GameTile gameTile)
