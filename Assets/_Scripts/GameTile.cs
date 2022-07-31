@@ -12,6 +12,7 @@ public class GameTile : MonoBehaviour
 
     private GameBoard _board;
 
+    private float _diaposonMatch = 0.2f;
     private float _speedRotation = 12;
 
     private bool _isMove;
@@ -122,15 +123,15 @@ public class GameTile : MonoBehaviour
             collision.gameObject.GetComponent<GameTile>().NumberGameTile == NumberGameTile)
         {
             if ((_isMoveDown || _isMoveForward) &&
-                Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) < 0.2f
-                && Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) > -0.2f)
+                Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) < _diaposonMatch
+                && Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) > -_diaposonMatch)
             {
                 CreateUpGameTile(collision);
             }
             if ((_isMoveLeft || _isMoveRight) &&
-                Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) < 0.3f
+                Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) < _diaposonMatch
                 &&
-                Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) > -0.3f)
+                Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) > -_diaposonMatch)
             {
                 CreateUpGameTile(collision);
             }

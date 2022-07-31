@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GameBoard : MonoBehaviour
 {
+    [SerializeField] private GameObject _buttonNextLevel;
     [SerializeField] private Tile _tilePrefab;
     [SerializeField] private Tile _lockTilePrefab;
     [SerializeField] private GameTile _gameTilePrefab;
@@ -102,6 +103,7 @@ public class GameBoard : MonoBehaviour
 
     private void CreateGameTile(Vector2Int size)
     {
+       
         _size = size;
         Vector2 offset = new Vector2((size.x - 1) * 0.5f, (size.y - 1) * 0.5f);
         for (int i = 0, y = 0; y < _size.y; y++)
@@ -119,6 +121,40 @@ public class GameBoard : MonoBehaviour
                         gameTile.transform.localPosition = new Vector3(x - offset.x, 0.5f, y - offset.y);
                     }                   
                 }
+            }
+        }
+        int count;
+        for (count = 2; count <= GameTiles.Count; count *= 2)
+        {
+            if (GameTiles.Count == 0)
+                CreateGameTile(_size);
+
+            if (count == GameTiles.Count)
+            {
+                return;
+            }           
+        }
+        AmountGameTileMultiplyTwo(count);
+        if (GameTiles.Count < count )
+        {
+            AmountGameTileMultiplyTwo(count/2);
+        }
+       
+    }
+
+    private void AmountGameTileMultiplyTwo(int count)
+    {
+        if (GameTiles.Count > count)
+        {
+            foreach (GameTile tile in GameTiles.ToArray())
+            {
+                Destroy(tile.gameObject);
+                GameTiles.Remove(tile);
+                if (count == GameTiles.Count)
+                {
+                    return;
+                }
+
             }
         }
     }
