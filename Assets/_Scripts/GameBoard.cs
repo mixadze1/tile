@@ -4,13 +4,15 @@ using UnityEngine;
 public class GameBoard : MonoBehaviour
 {
     [SerializeField] private GameObject _buttonNextLevel;
+    [SerializeField] private Win _win;
     [SerializeField] private Tile _tilePrefab;
     [SerializeField] private Tile _lockTilePrefab;
-    [SerializeField] private GameTile _gameTilePrefab;
+   
     [SerializeField] private Wall _wallPrefab;
     [SerializeField, Range(20, 80)] private float _spawnPercentWall;
     [SerializeField, Range(50, 80)] private float _spawnPecrentgameTile;
 
+    private GameTile _gameTilePrefab;
     private Tile[] _tiles;
 
     private float _sizeWallX = 20.25f;
@@ -22,20 +24,35 @@ public class GameBoard : MonoBehaviour
     private List <Wall> _walls = new List<Wall>();
 
     private Vector2Int _size;
+
+    private bool _isGame;
+
     public List<GameTile> GameTiles = new List<GameTile>();
 
-    public void Initialize(Vector2Int size)
+
+    public void Initialize(Vector2Int size, GameTile gameTile)
     {
-        CreateBoard(size);
-        CreateGameTile(size);
-        CreateWall();
+        _gameTilePrefab = gameTile;
+        _win.InitializeLevel();
+        _size = NewSizeBoard();
+        if (_isGame)
+        { RestartGame(); }
+        else
+        {
+            CreateBoard(_size);
+            CreateGameTile(_size);
+            CreateWall();
+        }
+        
     }
 
     private void Update()
     {
-        if(IsWin())
+        if(IsWin() && _isGame)
         {
-            //TODO win
+            _buttonNextLevel.SetActive(true);
+            _win.NextLevel();
+            _isGame = false;
         }
     }
 
@@ -48,6 +65,7 @@ public class GameBoard : MonoBehaviour
 
     public void RestartGame()
     {
+        _buttonNextLevel.SetActive(false);
         foreach (var gameTile in GameTiles)
         {
             if(gameTile != null)
@@ -69,6 +87,7 @@ public class GameBoard : MonoBehaviour
         CreateWall();
 
     }
+
     private Vector2Int NewSizeBoard()
     {
        return  new Vector2Int(Random.Range(5, 8), (Random.Range(5, 10)));
@@ -139,6 +158,7 @@ public class GameBoard : MonoBehaviour
         {
             AmountGameTileMultiplyTwo(count/2);
         }
+        _isGame = true;
        
     }
 
