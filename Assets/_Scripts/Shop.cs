@@ -16,7 +16,7 @@ public class Shop : MonoBehaviour
     {
         foreach (ShopItem item in _shopItems)
         {
-            item.Initialize();
+            item.Initialize(_game);
         }
     }
 

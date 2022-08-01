@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class ShopItem : MonoBehaviour
 {
@@ -7,16 +8,22 @@ public class ShopItem : MonoBehaviour
     [SerializeField] private Shop _shop;
     [SerializeField] private  GameObject _buyShopItem;
     [SerializeField] private GameObject _lockGameTile;
-
+    [SerializeField] private int _priceItem = 300;
+    [SerializeField] private TextMeshProUGUI _priceText;
     [SerializeField] private string ShopItemName;
 
-    public void Initialize()
+   
+    private Game _game;
+
+    public void Initialize(Game game)
     {
+        _game = game;
        var buyItem =  PlayerPrefs.GetInt(ShopItemName);
         if (buyItem != 0)
         {
             UnlockItem();
         }
+        _priceText.text = _priceItem.ToString();
     }
 
     private void UnlockItem()
@@ -28,7 +35,12 @@ public class ShopItem : MonoBehaviour
 
     public void BuyItem()
     {
-        UnlockItem();
+        if (GUIManager._instance.Coin >= _priceItem && _game.IsGame)
+        {
+            UnlockItem();
+            GUIManager._instance.Coin -= _priceItem;
+        }
+        
     }
 
     public void EquipGameTile()

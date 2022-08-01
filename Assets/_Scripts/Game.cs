@@ -21,4 +21,9 @@ public class Game : MonoBehaviour
     {
         _board.Initialize(_boardSize, gameTile, setupColor,this);
     }
+
+    public void AddMoney()
+    {
+        GUIManager._instance.Coin += 1000;
+    }
 }
