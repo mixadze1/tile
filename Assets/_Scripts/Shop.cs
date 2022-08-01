@@ -20,8 +20,8 @@ public class Shop : MonoBehaviour
         }
     }
 
-    public void ChangeGameTile(GameTile gameTile)
+    public void ChangeGameTile(GameTile gameTile, SetupColor setupColor)
     {
-        _game.ChangeGameTile(gameTile);
+        _game.ChangeGameTile(gameTile, setupColor);
     }
 }

@@ -10,7 +10,7 @@ public class GameTile : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField,Range(10f,30f)] private float _rotation;
     [SerializeField] private Material[] _materials;
-    [SerializeField] private TrailRenderer _trailRenderer;
+    [SerializeField] private TrailRenderer[] _trailRenderers;
     private GameBoard _board;
     private SetupColor _setupColor;
 
@@ -39,11 +39,25 @@ public class GameTile : MonoBehaviour
     public void Initialize(GameBoard gameBoard, SetupColor setupColor)
     {
         _board = gameBoard;
-        _setupColor = setupColor;
-        _materials = _setupColor.Materials;
-        _trailRenderer = GetComponentInChildren<TrailRenderer>();
+        ColorInitialize(setupColor);
+        TrailInitialize();
     }
 
+    private void ColorInitialize(SetupColor setupColor)
+    {
+        _setupColor = setupColor;
+        _materials = _setupColor.Materials;
+    }
+
+    private void TrailInitialize()
+    {
+        _trailRenderers = GetComponentsInChildren<TrailRenderer>();
+        foreach (var trail in _trailRenderers)
+        {
+            trail.gameObject.SetActive(false);
+        }
+        _trailRenderers[NumberGameTile - 1].gameObject.SetActive(true);
+    }
 
     private void Update()
     {
@@ -148,7 +162,11 @@ public class GameTile : MonoBehaviour
     private void ChangeColor()
     {
         gameObject.GetComponent<MeshRenderer>().material = _materials[NumberGameTile];
-        _trailRenderer.colorGradient.mode.CompareTo(NumberGameTile);
+        foreach(var trail in _trailRenderers)
+        {
+            trail.gameObject.SetActive(false);
+        }
+        _trailRenderers[NumberGameTile - 1].gameObject.SetActive(true);
     }
 
     private void CreateUpGameTile(Collision collision)

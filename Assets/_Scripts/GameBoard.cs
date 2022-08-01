@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameBoard : MonoBehaviour
-{
-    [SerializeField] private SetupColor _setupColor;
+{   
     [SerializeField] private GameObject _buttonNextLevel;
     [SerializeField] private Win _win;
     [SerializeField] private Tile _tilePrefab;
@@ -13,6 +12,7 @@ public class GameBoard : MonoBehaviour
     [SerializeField, Range(20, 80)] private float _spawnPercentWall;
     [SerializeField, Range(50, 80)] private float _spawnPecrentgameTile;
 
+    private SetupColor _setupColor;
     private GameTile _gameTilePrefab;
     private Tile[] _tiles;
 
@@ -31,13 +31,17 @@ public class GameBoard : MonoBehaviour
     public List<GameTile> GameTiles = new List<GameTile>();
 
 
-    public void Initialize(Vector2Int size, GameTile gameTile)
+    public void Initialize(Vector2Int size, GameTile gameTile, SetupColor setupColor)
     {
+        _setupColor = setupColor;
         _gameTilePrefab = gameTile;
         _win.InitializeLevel();
         _size = NewSizeBoard();
         if (_isGame)
-        { RestartGame(); }
+        { 
+            RestartGame();
+            return;
+        }
         else
         {
             CreateBoard(_size);
