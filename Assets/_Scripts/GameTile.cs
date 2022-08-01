@@ -34,6 +34,7 @@ public class GameTile : MonoBehaviour
         _rigidbody.isKinematic = true;
         SwipeManager.instance.MoveEvent += MoveGameTile;
         _textNumber.text = NumberGameTile.ToString();
+        GetComponentInChildren<Canvas>().gameObject.SetActive(false);
     }
 
     public void Initialize(GameBoard gameBoard, SetupColor setupColor)

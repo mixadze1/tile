@@ -5,32 +5,50 @@ using UnityEngine;
 
 public class GUIManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _scoreText;
-    [SerializeField] private TextMeshProUGUI _healthText;
+    [SerializeField] private TextMeshProUGUI _coinText;
+    [SerializeField] private TextMeshProUGUI _starText;
 
-    private int _score;
-    private int _health;
-    public const string SCORE = "Score";
-
+    private int _coin;
+    private int _star;
+    public const string COIN = "Coin";
+    public const string STAR = "Star";
     public static GUIManager _instance;
 
     void Awake()
     {
         _instance = GetComponent<GUIManager>();
-        _scoreText.text = _score.ToString();
+        _coin = PlayerPrefs.GetInt(COIN);
+        _star = PlayerPrefs.GetInt(STAR);
+        _coinText.text = _coin.ToString();
+        _starText.text = _star.ToString();
     }
 
-    public int Score
+    public int Coin
     {
         get
         {
-            return _score;
+            return _coin;
         }
 
         set
         {
-            _score = value;
-            _scoreText.text = _score.ToString();
+            _coin = value;
+            PlayerPrefs.SetInt(COIN, _coin);
+            _coinText.text = _coin.ToString();
+        }
+    }
+    public int Star
+    {
+        get
+        {
+            return _star;
+        }
+
+        set
+        {
+            _star = value;
+            PlayerPrefs.SetInt(STAR, _star);
+            _starText.text = _star.ToString();
         }
     }
 }

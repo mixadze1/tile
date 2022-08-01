@@ -12,6 +12,7 @@ public class GameBoard : MonoBehaviour
     [SerializeField, Range(20, 80)] private float _spawnPercentWall;
     [SerializeField, Range(50, 80)] private float _spawnPecrentgameTile;
 
+    private Game _game;
     private SetupColor _setupColor;
     private GameTile _gameTilePrefab;
     private Tile[] _tiles;
@@ -31,13 +32,14 @@ public class GameBoard : MonoBehaviour
     public List<GameTile> GameTiles = new List<GameTile>();
 
 
-    public void Initialize(Vector2Int size, GameTile gameTile, SetupColor setupColor)
+    public void Initialize(Vector2Int size, GameTile gameTile, SetupColor setupColor, Game game)
     {
+        _game = game;
         _setupColor = setupColor;
         _gameTilePrefab = gameTile;
         _win.InitializeLevel();
         _size = NewSizeBoard();
-        if (_isGame)
+        if (game.IsGame)
         { 
             RestartGame();
             return;
@@ -47,17 +49,18 @@ public class GameBoard : MonoBehaviour
             CreateBoard(_size);
             CreateGameTile(_size);
             CreateWall();
+            _game.IsGame = true;
         }
         
     }
 
     private void Update()
     {
-        if(IsWin() && _isGame)
+        Debug.Log(_game.IsGame);
+        if(IsWin() && _game.IsGame)
         {
             _buttonNextLevel.SetActive(true);
-            _win.NextLevel();
-            _isGame = false;
+            _game.IsGame = false;
         }
     }
 
@@ -90,7 +93,7 @@ public class GameBoard : MonoBehaviour
         CreateBoard(_size);
         CreateGameTile(_size);
         CreateWall();
-
+        _game.IsGame = true;
     }
 
     private Vector2Int NewSizeBoard()
@@ -163,7 +166,6 @@ public class GameBoard : MonoBehaviour
         {
             AmountGameTileMultiplyTwo(count/2);
         }
-        _isGame = true;
        
     }
 

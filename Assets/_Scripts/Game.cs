@@ -8,15 +8,17 @@ public class Game : MonoBehaviour
     [SerializeField] private Shop _shop;
     [SerializeField] private SetupColor _setupColor;
 
+    public bool IsGame;
+
     private void Start()
     {
         _shop.Initialize();
-        _board.Initialize(_boardSize, _gameTile, _setupColor);
+        _board.Initialize(_boardSize, _gameTile, _setupColor,this);
         
     }
 
     public void ChangeGameTile(GameTile gameTile, SetupColor setupColor)
     {
-        _board.Initialize(_boardSize, gameTile, setupColor);
+        _board.Initialize(_boardSize, gameTile, setupColor,this);
     }
 }

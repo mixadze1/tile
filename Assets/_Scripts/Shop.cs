@@ -22,6 +22,7 @@ public class Shop : MonoBehaviour
 
     public void ChangeGameTile(GameTile gameTile, SetupColor setupColor)
     {
-        _game.ChangeGameTile(gameTile, setupColor);
+        if(_game.IsGame)
+            _game.ChangeGameTile(gameTile, setupColor);
     }
 }
