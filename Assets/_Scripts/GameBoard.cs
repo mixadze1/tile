@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GameBoard : MonoBehaviour
 {
+    [SerializeField] private SetupColor _setupColor;
     [SerializeField] private GameObject _buttonNextLevel;
     [SerializeField] private Win _win;
     [SerializeField] private Tile _tilePrefab;
@@ -135,7 +136,7 @@ public class GameBoard : MonoBehaviour
                     {
                         GameTile gameTile = Instantiate(_gameTilePrefab);
                         GameTiles.Add(gameTile);
-                        gameTile.Initialize(this);
+                        gameTile.Initialize(this, _setupColor);
                         gameTile.transform.SetParent(transform, false);
                         gameTile.transform.localPosition = new Vector3(x - offset.x, 0.5f, y - offset.y);
                     }                   

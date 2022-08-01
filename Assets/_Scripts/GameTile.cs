@@ -9,8 +9,10 @@ public class GameTile : MonoBehaviour
 
     [SerializeField] private float _speed;
     [SerializeField,Range(10f,30f)] private float _rotation;
-
+    [SerializeField] private Material[] _materials;
+    [SerializeField] private TrailRenderer _trailRenderer;
     private GameBoard _board;
+    private SetupColor _setupColor;
 
     private float _diaposonMatch = 0.2f;
     private float _speedRotation = 12;
@@ -34,9 +36,12 @@ public class GameTile : MonoBehaviour
         _textNumber.text = NumberGameTile.ToString();
     }
 
-    public void Initialize(GameBoard gameBoard)
+    public void Initialize(GameBoard gameBoard, SetupColor setupColor)
     {
         _board = gameBoard;
+        _setupColor = setupColor;
+        _materials = _setupColor.Materials;
+        _trailRenderer = GetComponentInChildren<TrailRenderer>();
     }
 
 
@@ -127,6 +132,7 @@ public class GameTile : MonoBehaviour
                 && Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) > -_diaposonMatch)
             {
                 CreateUpGameTile(collision);
+                ChangeColor();
             }
             if ((_isMoveLeft || _isMoveRight) &&
                 Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) < _diaposonMatch
@@ -134,8 +140,15 @@ public class GameTile : MonoBehaviour
                 Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) > -_diaposonMatch)
             {
                 CreateUpGameTile(collision);
+                ChangeColor();
             }
         }
+    }
+
+    private void ChangeColor()
+    {
+        gameObject.GetComponent<MeshRenderer>().material = _materials[NumberGameTile];
+        _trailRenderer.colorGradient.mode.CompareTo(NumberGameTile);
     }
 
     private void CreateUpGameTile(Collision collision)
