@@ -16,7 +16,6 @@ public class GameBoard : MonoBehaviour
     private SetupGameTile _setupGameTile;
     private GameTile _gameTilePrefab;
     private Tile[] _tiles;
-    private ParticleSystem _particleSystem;
 
     private float _sizeWallX = 20.25f;
     private float _sizeWallZ = 10;
@@ -130,8 +129,7 @@ public class GameBoard : MonoBehaviour
     }
 
     private void CreateGameTile(Vector2Int size)
-    {
-       
+    { 
         _size = size;
         Vector2 offset = new Vector2((size.x - 1) * 0.5f, (size.y - 1) * 0.5f);
         for (int i = 0, y = 0; y < _size.y; y++)
@@ -151,12 +149,15 @@ public class GameBoard : MonoBehaviour
                 }
             }
         }
+
+        if (GameTiles.Count == 0 || GameTiles.Count == 1)
+        {
+            CreateGameTile(_size);
+        }
+
         int count;
         for (count = 2; count <= GameTiles.Count; count *= 2)
         {
-            if (GameTiles.Count == 0 || GameTiles.Count == 1)
-                CreateGameTile(_size);
-
             if (count == GameTiles.Count)
             {
                 return;
@@ -166,8 +167,7 @@ public class GameBoard : MonoBehaviour
         if (GameTiles.Count < count )
         {
             AmountGameTileMultiplyTwo(count/2);
-        }
-       
+        }   
     }
 
     private void AmountGameTileMultiplyTwo(int count)

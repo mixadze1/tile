@@ -21,7 +21,7 @@ public class GameTile : MonoBehaviour
     private float _diaposonMatch = 0.2f;
     private float _speedRotation = 12;
 
-    private bool _isAlreadyMatch;
+   
     private bool _isMove;
 
     private bool _isMoveLeft;
@@ -29,6 +29,7 @@ public class GameTile : MonoBehaviour
     private bool _isMoveForward;
     private bool _isMoveDown;
 
+    public bool IsAlreadyMatch;
     public int NumberGameTile;
 
     public bool IsDie { get; private set; }
@@ -108,19 +109,22 @@ public class GameTile : MonoBehaviour
     {
 
         if (IsDie || _isMove)
-            return;     
+            return;
+        
         try
-        {
+        {        
             _isMove = true;
             _rigidbody.isKinematic = false;
             if (swipes[(int)SwipeManager.Direction.Left])
             {
+                AudioMove();
                 ConstainersLeftRight();
                 _isMoveLeft = true;
                 _rigidbody.velocity = Vector3.left * _speed;
             }
             if (swipes[(int)SwipeManager.Direction.Right])
             {
+                AudioMove();
                 ConstainersLeftRight();
                 _isMoveRight = true;
                 _rigidbody.velocity = Vector3.right * _speed;
@@ -128,13 +132,14 @@ public class GameTile : MonoBehaviour
 
             if (swipes[(int)SwipeManager.Direction.Up])
             {
-
+                AudioMove();
                 ConstainersForwardDown();
                 _isMoveForward = true;
                _rigidbody.velocity = Vector3.forward * _speed;
             }
             if (swipes[(int)SwipeManager.Direction.Down])
             {
+                AudioMove();
                 ConstainersForwardDown();
                 _isMoveDown = true;
                 _rigidbody.velocity = -Vector3.forward * _speed;
@@ -143,34 +148,48 @@ public class GameTile : MonoBehaviour
         catch
         {
             return;
-        }
-        
+        }    
+    }
+
+    private void AudioMove()
+    {
+        AudioSource audioSource = Instantiate(_audioMove);
+        audioSource.pitch = Random.Range(0.7f, 0.9f);
+        audioSource.transform.SetParent(transform, true);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        
+
         if (collision.gameObject.GetComponent<GameTile>() &&
             collision.gameObject.GetComponent<GameTile>().NumberGameTile == NumberGameTile)
         {
-            if (_isAlreadyMatch)
+            if (IsAlreadyMatch || collision.gameObject.GetComponent<GameTile>().IsAlreadyMatch)
+            { 
                 return;
-
+            }
+               
             if ((_isMoveDown || _isMoveForward) &&
                 Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) < _diaposonMatch
                 && Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) > -_diaposonMatch)
             {
-                _isAlreadyMatch = true;
-                CreateUpGameTile(collision);
-                ChangeColor();
+                    IsAlreadyMatch = true;
+               
+                    CreateUpGameTile(collision);
+                    ChangeColor();
+                
             }
             if ((_isMoveLeft || _isMoveRight) &&
                 Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) < _diaposonMatch
                 &&
                 Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) > -_diaposonMatch)
             {
-                _isAlreadyMatch = true;
-                CreateUpGameTile(collision);
-                ChangeColor();
+                    IsAlreadyMatch = true;
+                
+                    CreateUpGameTile(collision);
+                    ChangeColor();
+                    
             }
         }
     }
@@ -186,10 +205,11 @@ public class GameTile : MonoBehaviour
     }
 
     private void CreateUpGameTile(Collision collision)
-    {
-        
+    {       
         Destroy(collision.gameObject);
         ParticleSystem particle = Instantiate(_particleSystem);
+        AudioSource audioSource = Instantiate(_audioMatch);
+        audioSource.transform.SetParent(transform, true);
         particle.transform.position = collision.transform.position;
         particle.transform.position = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
         _board.GameTiles.Remove(collision.gameObject.GetComponent<GameTile>());
@@ -197,7 +217,7 @@ public class GameTile : MonoBehaviour
         gameObject.transform.localPosition = collision.gameObject.transform.localPosition;
         NumberGameTile++;
         _textNumber.text = NumberGameTile.ToString();
-        _isAlreadyMatch = false;
+        IsAlreadyMatch = false;
     }
 
     private void ConstainersLeftRight()
