@@ -4,7 +4,7 @@ using UnityEngine;
 public class ShopItem : MonoBehaviour
 {
     [SerializeField] private GameTile _gameTilePrefab;
-    [SerializeField] private SetupColor _setupColor;
+    [SerializeField] private SetupGameTile _setupGameTile;
     [SerializeField] private Shop _shop;
     [SerializeField] private  GameObject _buyShopItem;
     [SerializeField] private GameObject _lockGameTile;
@@ -45,7 +45,7 @@ public class ShopItem : MonoBehaviour
 
     public void EquipGameTile()
     {
-        _shop.ChangeGameTile(_gameTilePrefab, _setupColor);
+        _shop.ChangeGameTile(_gameTilePrefab, _setupGameTile);
     }
 
   

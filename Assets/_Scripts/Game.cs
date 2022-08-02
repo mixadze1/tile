@@ -6,8 +6,7 @@ public class Game : MonoBehaviour
     [SerializeField] private GameTile _gameTile;
     [SerializeField] private Vector2Int _boardSize;
     [SerializeField] private Shop _shop;
-    [SerializeField] private SetupColor _setupColor;
-
+    [SerializeField] private SetupGameTile _setupColor;
     public bool IsGame;
 
     private void Start()
@@ -17,9 +16,9 @@ public class Game : MonoBehaviour
         
     }
 
-    public void ChangeGameTile(GameTile gameTile, SetupColor setupColor)
+    public void ChangeGameTile(GameTile gameTile, SetupGameTile setupgameTile)
     {
-        _board.Initialize(_boardSize, gameTile, setupColor,this);
+        _board.Initialize(_boardSize, gameTile, setupgameTile,this);
     }
 
     public void AddMoney()

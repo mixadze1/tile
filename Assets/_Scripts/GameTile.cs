@@ -11,12 +11,17 @@ public class GameTile : MonoBehaviour
     [SerializeField,Range(10f,30f)] private float _rotation;
     [SerializeField] private Material[] _materials;
     [SerializeField] private TrailRenderer[] _trailRenderers;
-    private GameBoard _board;
-    private SetupColor _setupColor;
+    [SerializeField] private ParticleSystem _particleSystem;
 
+    private AudioSource _audioMove;
+    private AudioSource _audioMatch;
+    private GameBoard _board;
+    private SetupGameTile _setupColor;
+   
     private float _diaposonMatch = 0.2f;
     private float _speedRotation = 12;
 
+    private bool _isAlreadyMatch;
     private bool _isMove;
 
     private bool _isMoveLeft;
@@ -37,17 +42,22 @@ public class GameTile : MonoBehaviour
         GetComponentInChildren<Canvas>().gameObject.SetActive(false);
     }
 
-    public void Initialize(GameBoard gameBoard, SetupColor setupColor)
+    public void Initialize(GameBoard gameBoard, SetupGameTile setupGameTile)
     {
         _board = gameBoard;
-        ColorInitialize(setupColor);
+        InitializeGameTile(setupGameTile);
+       
         TrailInitialize();
     }
 
-    private void ColorInitialize(SetupColor setupColor)
+    private void InitializeGameTile(SetupGameTile setupGameTile)
     {
-        _setupColor = setupColor;
+        _setupColor = setupGameTile;
         _materials = _setupColor.Materials;
+        _particleSystem = _setupColor.ParticleSystem;
+        _audioMove = _setupColor.Move;
+        _audioMatch = _setupColor.Match;
+
     }
 
     private void TrailInitialize()
@@ -142,10 +152,14 @@ public class GameTile : MonoBehaviour
         if (collision.gameObject.GetComponent<GameTile>() &&
             collision.gameObject.GetComponent<GameTile>().NumberGameTile == NumberGameTile)
         {
+            if (_isAlreadyMatch)
+                return;
+
             if ((_isMoveDown || _isMoveForward) &&
                 Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) < _diaposonMatch
                 && Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) > -_diaposonMatch)
             {
+                _isAlreadyMatch = true;
                 CreateUpGameTile(collision);
                 ChangeColor();
             }
@@ -154,6 +168,7 @@ public class GameTile : MonoBehaviour
                 &&
                 Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) > -_diaposonMatch)
             {
+                _isAlreadyMatch = true;
                 CreateUpGameTile(collision);
                 ChangeColor();
             }
@@ -172,12 +187,17 @@ public class GameTile : MonoBehaviour
 
     private void CreateUpGameTile(Collision collision)
     {
+        
         Destroy(collision.gameObject);
+        ParticleSystem particle = Instantiate(_particleSystem);
+        particle.transform.position = collision.transform.position;
+        particle.transform.position = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
         _board.GameTiles.Remove(collision.gameObject.GetComponent<GameTile>());
         collision.gameObject.GetComponent<GameTile>().IsDie = true;
-        gameObject.transform.position = collision.gameObject.transform.position;
+        gameObject.transform.localPosition = collision.gameObject.transform.localPosition;
         NumberGameTile++;
         _textNumber.text = NumberGameTile.ToString();
+        _isAlreadyMatch = false;
     }
 
     private void ConstainersLeftRight()

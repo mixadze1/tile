@@ -13,9 +13,10 @@ public class GameBoard : MonoBehaviour
     [SerializeField, Range(50, 80)] private float _spawnPecrentgameTile;
 
     private Game _game;
-    private SetupColor _setupColor;
+    private SetupGameTile _setupGameTile;
     private GameTile _gameTilePrefab;
     private Tile[] _tiles;
+    private ParticleSystem _particleSystem;
 
     private float _sizeWallX = 20.25f;
     private float _sizeWallZ = 10;
@@ -32,10 +33,10 @@ public class GameBoard : MonoBehaviour
     public List<GameTile> GameTiles = new List<GameTile>();
 
 
-    public void Initialize(Vector2Int size, GameTile gameTile, SetupColor setupColor, Game game)
+    public void Initialize(Vector2Int size, GameTile gameTile, SetupGameTile setupGameTile, Game game)
     {
         _game = game;
-        _setupColor = setupColor;
+        _setupGameTile = setupGameTile;
         _gameTilePrefab = gameTile;
         _win.InitializeLevel();
         _size = NewSizeBoard();
@@ -143,7 +144,7 @@ public class GameBoard : MonoBehaviour
                     {
                         GameTile gameTile = Instantiate(_gameTilePrefab);
                         GameTiles.Add(gameTile);
-                        gameTile.Initialize(this, _setupColor);
+                        gameTile.Initialize(this, _setupGameTile);
                         gameTile.transform.SetParent(transform, false);
                         gameTile.transform.localPosition = new Vector3(x - offset.x, 0.5f, y - offset.y);
                     }                   
@@ -153,7 +154,7 @@ public class GameBoard : MonoBehaviour
         int count;
         for (count = 2; count <= GameTiles.Count; count *= 2)
         {
-            if (GameTiles.Count == 0)
+            if (GameTiles.Count == 0 || GameTiles.Count == 1)
                 CreateGameTile(_size);
 
             if (count == GameTiles.Count)

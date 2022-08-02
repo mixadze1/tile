@@ -105,6 +105,7 @@ MonoBehaviour:
   _rotation: 25
   _materials: []
   _trailRenderers: []
+  _particleSystem: {fileID: 0}
   NumberGameTile: 1
 --- !u!54 &8255922289135124894
 Rigidbody:
