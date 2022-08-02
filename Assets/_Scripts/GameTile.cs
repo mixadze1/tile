@@ -165,7 +165,7 @@ public class GameTile : MonoBehaviour
         if (collision.gameObject.GetComponent<GameTile>() &&
             collision.gameObject.GetComponent<GameTile>().NumberGameTile == NumberGameTile)
         {
-            if (IsAlreadyMatch || collision.gameObject.GetComponent<GameTile>().IsAlreadyMatch)
+            if (collision.gameObject.GetComponent<GameTile>().IsAlreadyMatch)
             { 
                 return;
             }
