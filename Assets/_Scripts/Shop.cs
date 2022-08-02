@@ -5,14 +5,17 @@ using UnityEngine;
 public class Shop : MonoBehaviour
 {
     [SerializeField] private Game _game;
+    [SerializeField] private GameObject ShopUI;
     [SerializeField] private ShopItem[] _shopItems;
 
+    private GameBoard _board;
+
     public const string SAFE_GAME_TILE = "SafeGameTile";
-    public void Initialize()
+    public void Initialize(GameBoard board)
     {
+        _board = board;
         _shopItems = GetComponentsInChildren<ShopItem>();
-        InitializeShopItem();
-       
+        InitializeShopItem();   
     }
 
     public SetupGameTile InitializeStartSetupGameTile()
@@ -58,8 +61,11 @@ public class Shop : MonoBehaviour
         return null;  
     }
 
-    
-
+    public void ActivateShopUI()
+    {
+        if (!_board.IsWin())
+            ShopUI.SetActive(true);
+    }
 
     public void ChangeGameTile(GameTile gameTile, SetupGameTile setupGameTile, int numberItem)
     {

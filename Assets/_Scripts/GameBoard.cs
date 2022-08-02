@@ -4,14 +4,14 @@ using UnityEngine;
 public class GameBoard : MonoBehaviour
 {   
     [SerializeField] private GameObject _buttonNextLevel;
+    [SerializeField] private Restart _restart;
     [SerializeField] private Win _win;
     [SerializeField] private Tile _tilePrefab;
     [SerializeField] private Tile _lockTilePrefab;
-   
     [SerializeField] private Wall _wallPrefab;
     [SerializeField, Range(20, 80)] private float _spawnPercentWall;
     [SerializeField, Range(50, 80)] private float _spawnPecrentgameTile;
-
+    [SerializeField, Range (0.5f,1f)] private float _localScaleTile;
     private Game _game;
     private SetupGameTile _setupGameTile;
     private GameTile _gameTilePrefab;
@@ -20,7 +20,7 @@ public class GameBoard : MonoBehaviour
     private float _sizeWallX = 20.25f;
     private float _sizeWallZ = 10;
     private float _offsetWallX = 0.25f;
-    private float _offsetWall = 10.2f;
+    private float _offsetWall = 10.15f;
 
     
     private List <Wall> _walls = new List<Wall>();
@@ -39,6 +39,7 @@ public class GameBoard : MonoBehaviour
         _gameTilePrefab = gameTile;
         _win.InitializeLevel();
         _size = NewSizeBoard();
+        _restart.Initialize(this);
         if (game.IsGame)
         { 
             RestartGame();
@@ -64,7 +65,7 @@ public class GameBoard : MonoBehaviour
         }
     }
 
-    private bool IsWin()
+    public bool IsWin()
     {
        if (GameTiles.Count <= 1)
             return true;
@@ -144,6 +145,7 @@ public class GameBoard : MonoBehaviour
                         GameTiles.Add(gameTile);
                         gameTile.Initialize(this, _setupGameTile);
                         gameTile.transform.SetParent(transform, false);
+                        gameTile.transform.localScale = new Vector3(_localScaleTile, _localScaleTile, _localScaleTile);
                         gameTile.transform.localPosition = new Vector3(x - offset.x, 0.5f, y - offset.y);
                     }                   
                 }

@@ -9,10 +9,7 @@ public class Win : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _levelText;
 
-    [SerializeField] private int _safeCoinLevel;
-
     [SerializeField] private GameObject _bonusActivate;
-
 
     private const string SAFE_LEVEL = "safeLevel";
 
@@ -48,7 +45,7 @@ public class Win : MonoBehaviour
 
     private IEnumerator CalculateCoin()
     {
-        int coin = _safeCoinLevel = Random.Range(18, 25);
+        int coin = Random.Range(18, 25);
         while (coin > 0)
         {
             yield return new WaitForSeconds(0.15f);

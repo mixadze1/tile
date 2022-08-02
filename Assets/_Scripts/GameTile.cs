@@ -105,10 +105,17 @@ public class GameTile : MonoBehaviour
             gameObject.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(new Vector3(_rotation, 0, 0)), Time.deltaTime * _speedRotation);
     }
 
+    private bool IsMove()
+    {
+       if (_isMove)
+            return true;
+        return false;
+    }
+
     void MoveGameTile(bool[] swipes)
     {
 
-        if (IsDie || _isMove)
+        if (IsDie || IsMove())
             return;
         
         try
@@ -160,36 +167,34 @@ public class GameTile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        
-
         if (collision.gameObject.GetComponent<GameTile>() &&
             collision.gameObject.GetComponent<GameTile>().NumberGameTile == NumberGameTile)
         {
             if (collision.gameObject.GetComponent<GameTile>().IsAlreadyMatch)
-            { 
+            {
                 return;
             }
-               
+
             if ((_isMoveDown || _isMoveForward) &&
                 Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) < _diaposonMatch
                 && Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) > -_diaposonMatch)
             {
-                    IsAlreadyMatch = true;
-               
-                    CreateUpGameTile(collision);
-                    ChangeColor();
-                
+                IsAlreadyMatch = true;
+
+                CreateUpGameTile(collision);
+                ChangeColor();
+
             }
             if ((_isMoveLeft || _isMoveRight) &&
                 Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) < _diaposonMatch
                 &&
                 Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) > -_diaposonMatch)
             {
-                    IsAlreadyMatch = true;
-                
-                    CreateUpGameTile(collision);
-                    ChangeColor();
-                    
+                IsAlreadyMatch = true;
+
+                CreateUpGameTile(collision);
+                ChangeColor();
+
             }
         }
     }
@@ -197,7 +202,7 @@ public class GameTile : MonoBehaviour
     private void ChangeColor()
     {
         gameObject.GetComponent<MeshRenderer>().material = _materials[NumberGameTile];
-        foreach(var trail in _trailRenderers)
+        foreach (var trail in _trailRenderers)
         {
             trail.gameObject.SetActive(false);
         }
