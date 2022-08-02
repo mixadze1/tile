@@ -11,15 +11,16 @@ public class ShopItem : MonoBehaviour
     [SerializeField] private int _priceItem = 300;
     [SerializeField] private TextMeshProUGUI _priceText;
     [SerializeField] private string ShopItemName;
+    [SerializeField] private bool _isUnlockItem;
+    [SerializeField] private int _numberItem;
 
-   
     private Game _game;
 
     public void Initialize(Game game)
     {
         _game = game;
        var buyItem =  PlayerPrefs.GetInt(ShopItemName);
-        if (buyItem != 0)
+        if (buyItem != 0 || _isUnlockItem)
         {
             UnlockItem();
         }
@@ -28,6 +29,7 @@ public class ShopItem : MonoBehaviour
 
     private void UnlockItem()
     {
+        _priceText.gameObject.SetActive(false);
         PlayerPrefs.SetInt(ShopItemName, 1);
         _lockGameTile.SetActive(false);
         _buyShopItem.SetActive(false);
@@ -43,9 +45,26 @@ public class ShopItem : MonoBehaviour
         
     }
 
+    public bool CheckItem(int number)
+    {
+        if (number == _numberItem)
+            return true;
+        return false;
+    }
+
+    public SetupGameTile GetShopItem()
+    {
+        return _setupGameTile;
+    }
+
+    public GameTile GetPrefab()
+    {
+        return _gameTilePrefab;
+    }
+
     public void EquipGameTile()
     {
-        _shop.ChangeGameTile(_gameTilePrefab, _setupGameTile);
+        _shop.ChangeGameTile(_gameTilePrefab, _setupGameTile, _numberItem);
     }
 
   

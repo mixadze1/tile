@@ -11,8 +11,10 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
-        _shop.Initialize();
-        _board.Initialize(_boardSize, _gameTile, _setupColor,this);
+     _shop.Initialize();
+     SetupGameTile setupGameTile = _shop.InitializeStartSetupGameTile();
+        GameTile gameTile = _shop.InitializeGameTile();
+               _board.Initialize(_boardSize, gameTile, setupGameTile, this);
         
     }
 
