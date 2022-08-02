@@ -49,8 +49,8 @@ public class Win : MonoBehaviour
         while (coin > 0)
         {
             yield return new WaitForSeconds(0.15f);
-            GUIManager._instance.Coin += 1;
-            coin -= 1;
+            GUIManager._instance.Coin += 3;
+            coin -= 3;
         }    
     }
 
