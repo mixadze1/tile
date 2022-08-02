@@ -8242,6 +8242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _coinText: {fileID: 256926654}
   _starText: {fileID: 953438408}
+  _coinSound: {fileID: 7270269130265672747, guid: 670361274fa1ab342ac74ba4447dd5fb, type: 3}
 --- !u!4 &1237932795
 Transform:
   m_ObjectHideFlags: 0
@@ -8939,8 +8940,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1362329079}
-        m_TargetAssemblyTypeName: Restart, Assembly-CSharp
+      - m_Target: {fileID: 1242185422}
+        m_TargetAssemblyTypeName: GameBoard, Assembly-CSharp
         m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
@@ -9001,9 +9002,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f96c25b720448041892a155b73b6d0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _restartTimerText: {fileID: 531695163}
-  _timerToCanRestart: 15
-  _animator: {fileID: 1362329080}
 --- !u!95 &1362329080
 Animator:
   serializedVersion: 3

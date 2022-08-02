@@ -7,6 +7,7 @@ public class GUIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _coinText;
     [SerializeField] private TextMeshProUGUI _starText;
+    [SerializeField] private AudioSource _coinSound;
 
     private int _coin;
     private int _star;
@@ -34,7 +35,9 @@ public class GUIManager : MonoBehaviour
         {
             _coin = value;
             PlayerPrefs.SetInt(COIN, _coin);
+            AudioSource coin = Instantiate(_coinSound);
             _coinText.text = _coin.ToString();
+            Destroy(coin.gameObject, 1);
         }
     }
     public int Star

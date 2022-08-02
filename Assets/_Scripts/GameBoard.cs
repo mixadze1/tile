@@ -21,7 +21,6 @@ public class GameBoard : MonoBehaviour
     private float _sizeWallZ = 10;
     private float _offsetWallX = 0.25f;
     private float _offsetWall = 10.15f;
-
     
     private List <Wall> _walls = new List<Wall>();
 
@@ -39,7 +38,7 @@ public class GameBoard : MonoBehaviour
         _gameTilePrefab = gameTile;
         _win.InitializeLevel();
         _size = NewSizeBoard();
-        _restart.Initialize(this);
+        //_restart.Initialize(this);
         if (game.IsGame)
         { 
             RestartGame();
