@@ -25,7 +25,6 @@ public class Win : MonoBehaviour
 
     public void NextLevel()
     {
-       
         _level = PlayerPrefs.GetInt(SAFE_LEVEL);
         if (_level == 0)
         { 
@@ -34,15 +33,9 @@ public class Win : MonoBehaviour
         _level++;
         StartCoroutine(CalculateCoin());
         StartCoroutine(CalculateStar());
-        ShowCountCoinAndStar();
         Bonus();
         _levelText.text =  _level.ToString();
         PlayerPrefs.SetInt(SAFE_LEVEL, _level);
-    }
-
-    private void ShowCountCoinAndStar()
-    {
-
     }
 
     private IEnumerator CalculateCoin()
@@ -58,7 +51,7 @@ public class Win : MonoBehaviour
 
     private void Bonus()
     {
-        int chance = Random.Range(0, 3);
+        int chance = Random.Range(0, 4);
         if (chance < 1)
             _bonusActivate.SetActive(true);
     }
