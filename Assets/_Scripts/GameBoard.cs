@@ -37,7 +37,7 @@ public class GameBoard : MonoBehaviour
         _setupGameTile = setupGameTile;
         _gameTilePrefab = gameTile;
         _win.InitializeLevel();
-        _size = NewSizeBoard();
+        _size = NewSizeBoardAndCameraCorrectPosition();
         //_restart.Initialize(this);
         if (game.IsGame)
         { 
@@ -89,16 +89,30 @@ public class GameBoard : MonoBehaviour
         }
         GameTiles.Clear();
         _walls.Clear();
-        _size = NewSizeBoard();
+        _size = NewSizeBoardAndCameraCorrectPosition();
         CreateBoard(_size);
         CreateGameTile(_size);
         CreateWall();
         _game.IsGame = true;
     }
 
-    private Vector2Int NewSizeBoard()
+    private Vector2Int NewSizeBoardAndCameraCorrectPosition()
     {
-       return  new Vector2Int(Random.Range(5, 8), (Random.Range(5, 10)));
+        if (_win.Level >= 25)
+            return new Vector2Int(Random.Range(8, 10), (Random.Range(8, 10)));
+        if (_win.Level >= 50)
+        {
+            Camera.main.transform.position = new Vector3(transform.position.x, 20f, -6f);
+            return new Vector2Int(Random.Range(11, 13), (Random.Range(11, 13)));
+        }
+           
+        if (_win.Level >= 100)
+        {
+            Camera.main.transform.position = new Vector3(transform.position.x, 26f, -9f);
+            return new Vector2Int(Random.Range(14, 16), (Random.Range(12, 16)));
+        }
+        Camera.main.transform.position = new Vector3(transform.position.x, 15f, -4.5f);
+        return  new Vector2Int(Random.Range(5, 7), (Random.Range(5, 7)));
     }
 
     private void CreateBoard(Vector2Int size)

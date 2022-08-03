@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Restart : MonoBehaviour
 {
-   /* [SerializeField] private int _timerToCanRestart;
+  /*  [SerializeField] private int _timerToCanRestart;
     [SerializeField] private Animator _animator;
     private int _rememberTimer;
     private GameBoard _board;
@@ -13,14 +13,14 @@ public class Restart : MonoBehaviour
     {
         _animator.enabled = false;
         _board = board;
-        _rememberTimer = 15;
-         StartCoroutine(CountDownToCanRestart());
+        _rememberTimer = 3;
+        StartCoroutine(CountDownToCanRestart());
     }
 
     private void LateUpdate()
     {
-       if(_board.IsWin()) 
-          StartCoroutine(CountDownToCanRestart());
+        if (_board.IsWin())
+            StartCoroutine(CountDownToCanRestart());
     }
 
     public void RestartGame()
@@ -32,7 +32,7 @@ public class Restart : MonoBehaviour
             _board.RestartGame();
             StartCoroutine(CountDownToCanRestart());
         }
-        
+
     }
 
     private IEnumerator CountDownToCanRestart()

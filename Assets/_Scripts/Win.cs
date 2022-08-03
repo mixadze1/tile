@@ -13,6 +13,8 @@ public class Win : MonoBehaviour
 
     private const string SAFE_LEVEL = "safeLevel";
 
+    public int Level { get { return _level; } set { _level = value; } }
+
     public void InitializeLevel()
     {
         _level = PlayerPrefs.GetInt(SAFE_LEVEL);

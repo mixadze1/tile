@@ -6,7 +6,6 @@ public class Game : MonoBehaviour
     [SerializeField] private GameTile _gameTile;
     [SerializeField] private Vector2Int _boardSize;
     [SerializeField] private Shop _shop;
-    [SerializeField] private SetupGameTile _setupColor;
     public bool IsGame;
 
     private void Start()

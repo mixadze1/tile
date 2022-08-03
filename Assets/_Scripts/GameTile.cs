@@ -170,16 +170,16 @@ public class GameTile : MonoBehaviour
         if (collision.gameObject.GetComponent<GameTile>() &&
             collision.gameObject.GetComponent<GameTile>().NumberGameTile == NumberGameTile)
         {
-            if (collision.gameObject.GetComponent<GameTile>().IsAlreadyMatch)
-            {
+            if (collision.gameObject.GetComponent<GameTile>().IsAlreadyMatch || IsAlreadyMatch)
+            {              
                 return;
             }
-
             if ((_isMoveDown || _isMoveForward) &&
                 Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) < _diaposonMatch
                 && Mathf.Abs(gameObject.transform.position.x) - Mathf.Abs(collision.gameObject.transform.position.x) > -_diaposonMatch)
             {
                 IsAlreadyMatch = true;
+                collision.gameObject.GetComponent<GameTile>().IsAlreadyMatch = true;
 
                 CreateUpGameTile(collision);
                 ChangeColor();
@@ -191,7 +191,7 @@ public class GameTile : MonoBehaviour
                 Mathf.Abs(gameObject.transform.position.z) - Mathf.Abs(collision.gameObject.transform.position.z) > -_diaposonMatch)
             {
                 IsAlreadyMatch = true;
-
+                collision.gameObject.GetComponent<GameTile>().IsAlreadyMatch = true;
                 CreateUpGameTile(collision);
                 ChangeColor();
 
@@ -201,16 +201,32 @@ public class GameTile : MonoBehaviour
 
     private void ChangeColor()
     {
-        gameObject.GetComponent<MeshRenderer>().material = _materials[NumberGameTile];
+        try
+        {
+            gameObject.GetComponent<MeshRenderer>().material = _materials[NumberGameTile];
+        }
+        catch
+        {
+            gameObject.GetComponent<MeshRenderer>().material = _materials[0];
+        }
         foreach (var trail in _trailRenderers)
         {
             trail.gameObject.SetActive(false);
         }
-        _trailRenderers[NumberGameTile - 1].gameObject.SetActive(true);
+
+        try
+        {
+            _trailRenderers[NumberGameTile - 1].gameObject.SetActive(true);
+        }
+        catch
+        {
+
+            _trailRenderers[0].gameObject.SetActive(true);
+        }
     }
 
     private void CreateUpGameTile(Collision collision)
-    {       
+    {
         Destroy(collision.gameObject);
         ParticleSystem particle = Instantiate(_particleSystem);
         AudioSource audioSource = Instantiate(_audioMatch);
