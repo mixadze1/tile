@@ -56,7 +56,6 @@ public class GameBoard : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_game.IsGame);
         if(IsWin() && _game.IsGame)
         {
             _buttonNextLevel.SetActive(true);

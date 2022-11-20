@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using GooglePlayGames;
-using GooglePlayGames.BasicApi;
-using UnityEngine.SocialPlatforms;
+//using GooglePlayGames;
+//using GooglePlayGames.BasicApi;
+//using UnityEngine.SocialPlatforms;
 
 public class GUIManager : MonoBehaviour
 {
@@ -30,12 +30,12 @@ public class GUIManager : MonoBehaviour
         _coinText.text = _coin.ToString();
         _starText.text = _star.ToString();
 
-        PlayGamesPlatform.DebugLogEnabled = true;
+      /*  PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
         Social.localUser.Authenticate(success =>
         {
             if (success) { }
-        });
+        });*/
     }
 
     public int Coin
@@ -66,7 +66,7 @@ public class GUIManager : MonoBehaviour
             _star = value;
             PlayerPrefs.SetInt(STAR, _star);
             _starText.text = _star.ToString();
-            Social.ReportScore(_star,LEADER_BOARD, (bool success) => { });
+            //Social.ReportScore(_star,LEADER_BOARD, (bool success) => { });
         }
     }
 

@@ -4864,9 +4864,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 699417305}
-  - component: {fileID: 699417304}
   - component: {fileID: 699417303}
-  - component: {fileID: 699417306}
   m_Layer: 0
   m_Name: AdsManager
   m_TagString: Untagged
@@ -4887,24 +4885,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _win: {fileID: 704811284}
-  buttonShowAd: {fileID: 1159288260}
-  AndroidAdId: Rewarded_Android
-  IOSAdId: Rewarded_iOS
---- !u!114 &699417304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 699417302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8867aa310bb21374dbdc93df76daa777, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _androidGameId: 4870045
-  _iosGameId: 4870044
-  _testMode: 1
 --- !u!4 &699417305
 Transform:
   m_ObjectHideFlags: 0
@@ -4919,21 +4899,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &699417306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 699417302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f31d69f864733343a142e5337fb1505, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bannerPosition: 4
-  AndroidId: Banner_Android
-  IosId: Banner_IOS
 --- !u!1 &704811282
 GameObject:
   m_ObjectHideFlags: 0
@@ -7473,6 +7438,49 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1026320777
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1026320779}
+  - component: {fileID: 1026320778}
+  m_Layer: 0
+  m_Name: YandexSDK
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1026320778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026320777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17ce44130ab96654db0df8901929e0ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1026320779
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026320777}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 341.69812, y: 861.91205, z: 150.33765}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1047171624
 GameObject:
   m_ObjectHideFlags: 0
@@ -8037,16 +8045,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 699417303}
-        m_TargetAssemblyTypeName: RewardedAds, Assembly-CSharp
-        m_MethodName: ShowAd
-        m_Mode: 1
+      - m_Target: {fileID: 1026320778}
+        m_TargetAssemblyTypeName: YandexSDK, Assembly-CSharp
+        m_MethodName: ShowRewarded
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Coin
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1159288261
@@ -9496,7 +9504,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -59, y: 0}
-  m_SizeDelta: {x: -259.1551, y: 0}
+  m_SizeDelta: {x: -219.3313, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1397606321
 MonoBehaviour:
@@ -9518,7 +9526,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +25
+  m_text: +100
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -9948,7 +9956,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 79, y: -117}
+  m_AnchoredPosition: {x: 98, y: -117}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1476449138
@@ -14801,7 +14809,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &5337096720194358530
 MonoBehaviour:
   m_ObjectHideFlags: 0

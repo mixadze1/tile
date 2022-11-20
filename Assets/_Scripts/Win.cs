@@ -19,7 +19,12 @@ public class Win : MonoBehaviour
     {
         _level = PlayerPrefs.GetInt(SAFE_LEVEL);
         if (_level == 0)
+        {
             _level++;
+            if (_level % 3 == 0)
+                YandexSDK.instance.ShowInterstitial();
+        }
+           
         _levelText.text = _level.ToString();
     }
 
@@ -40,10 +45,10 @@ public class Win : MonoBehaviour
 
     private IEnumerator CalculateCoin()
     {
-        int coin = 25;
+        int coin = 100;
         while (coin > 0)
         {
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.05f);
             GUIManager._instance.Coin += 3;
             coin -= 3;
         }    
