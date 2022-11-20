@@ -19,8 +19,8 @@ public class GUIManager : MonoBehaviour
     private int _star;
     public const string COIN = "Coin";
     public const string STAR = "Star";
-    public static GUIManager _instance;
 
+    public static GUIManager _instance;
 
     void Awake()
     {

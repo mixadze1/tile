@@ -40,7 +40,7 @@ public class Win : MonoBehaviour
 
     private IEnumerator CalculateCoin()
     {
-        int coin = Random.Range(18, 25);
+        int coin = 25;
         while (coin > 0)
         {
             yield return new WaitForSeconds(0.15f);
